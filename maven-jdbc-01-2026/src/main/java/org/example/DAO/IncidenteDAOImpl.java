@@ -25,7 +25,7 @@ public class IncidenteDAOImpl extends AbstractDAO<Incidente>{
         super(motorSQL);
     }
 
-    public static void main (String[] args){
+    public static void main (String[] args) {
         //INSTANCIA INCIDENTE
         IncidenteDAOImpl incidenteDAOImpl = new IncidenteDAOImpl(MotorFactory.create(MotorFactory.POSTGRE));
 
@@ -51,7 +51,11 @@ public class IncidenteDAOImpl extends AbstractDAO<Incidente>{
 
         //TEST 3: DELETE
         incidenteDAOImpl.delete(1);
+
+        //TEST 4: findIncidenteBySoc
+        incidenteDAOImpl.findIncidenteBySoc(1);
     }
+
 
 
     @Override
@@ -163,6 +167,7 @@ public class IncidenteDAOImpl extends AbstractDAO<Incidente>{
 
             motorSQL.getPs().setInt(1, id);
 
+
             // 3º EJECUTAR UPDATE
             ResultSet rs = motorSQL.executeQuery();
 
@@ -191,6 +196,15 @@ public class IncidenteDAOImpl extends AbstractDAO<Incidente>{
         }finally {
             motorSQL.close();
         }
+
+        if (incidentes.isEmpty()) {
+            System.out.println("No se encontraron incidentes para el SOC con ID " + id);
+        } else {
+            for (Incidente i : incidentes) {
+                System.out.println(i);
+            }
+        }
+
         return incidentes;
     }
 
